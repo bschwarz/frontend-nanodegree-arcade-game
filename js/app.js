@@ -1,12 +1,28 @@
 // Enemies our player must avoid
-var Enemy = function() {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
+var Enemy = function(row) {
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+
+    // from engine.js
+    // width of column = 101
+    // height of row = 83
+    this.row = row;
+    this.x = -cellWidth;
+    // Will add enemy in the row that is passed into this function
+    this.y = row*cellHeight - imgOffset;
+    // use a speed function so that we can increase speed for next level
+    this.speed = this.getspeed(190);
+
 };
+
+// ****************************************************
+//  Speed method - get random speed, based on top speed
+// ****************************************************
+Enemy.prototype.getspeed = function(top) {
+    return Math.floor(Math.random() * top) + top - 5;
+}
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -14,6 +30,18 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+
+    this.x += this.speed * dt;    
+    if (this.x > ctx.canvas.width) {
+        this.x = -cellWidth;
+    }
+
+    if(this.x >= player.x - imgOffset && this.x <= player.x + imgOffset) {
+        if(this.y >= player.y - imgOffset && this.y <= player.y + imgOffset) {
+            this.reset();
+            player.reset();
+        }
+    }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -21,15 +49,116 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
+Enemy.prototype.reset = function() {
+    this.x = -cellWidth;
+};
 
+
+
+// ****************************************************
+//  Player Class
+// ****************************************************
+var Player = function(x, y) {
+    this.sprite = 'images/char-boy.png';
+
+    // Start at bottom row, in the middle
+    this.x = cellWidth * 2;
+    this.y = 5*cellHeight-imgOffset;
+
+    // define the edges for each direction, for edge detection
+    this.edge = {
+        'left': cellWidth, 
+        'up': imgOffset, 
+        'right': cellWidth*4, 
+        'down': cellHeight*4+imgOffset
+    };
+};
+
+
+// ****************************************************
+//  update method
+// ****************************************************
+Player.prototype.update = function() {
+
+}
+
+// ****************************************************
+//  render method
+// ****************************************************
+Player.prototype.render = function() {
+    ctx.font = "400 50px Gloria Hallelujah";
+    ctx.fillText("Score: " + score, 0, 50);
+    ctx.fillText("Level: " + level, 300, 50);
+
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+
+// ****************************************************
+//  method to handle the input from the user
+// ****************************************************
+Player.prototype.handleInput = function(key) {
+
+    this.keypressed = key;
+
+    switch (key) {
+        case 'left':
+            if (this.x < this.edge[key]) {
+                this.x = this.edge['right'];
+            } else {
+                this.x -= 101;
+            }
+            break;
+        case 'up':
+            if (this.y > this.edge[key]) {
+                this.y -= 83;
+            }
+            break;
+        case 'right':
+            if (this.x>= this.edge[key]) {
+                this.x = 0;
+            } else {
+                this.x += 101;
+            }
+            break;
+        case 'down':
+            if (this.y < this.edge[key]) {
+                this.y += 83;
+            }
+            break;
+    }
+}
+
+// ****************************************************
+//  reset method
+// ****************************************************
+Player.prototype.reset = function() {
+    this.x = cellWidth * 2;
+    this.y = 5*cellHeight-imgOffset;
+}
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+// var allEnemies = [new Enemy(100, 300, 250), new Enemy(300, 380, 150), new Enemy(400, 220, 350), new Enemy(-700, 130, 420)];
+// var player = new Player(215, 460);
 
+var score = 0;
+var level = 0;
+var imgOffset = 25;
+var cellWidth = 101;
+var cellHeight = 83;
+
+var allEnemies = []; //creates an array of Enemies
+(function displayEnemies() {
+    'use strict';
+    allEnemies.push(new Enemy(1));
+    allEnemies.push(new Enemy(2));
+    allEnemies.push(new Enemy(3));
+}());
+
+
+var player = new Player();
 
 
 // This listens for key presses and sends the keys to your
