@@ -5,7 +5,7 @@ var Enemy = function(row) {
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
 
-    // from engine.js
+    //**  from engine.js
     // width of column = 101
     // height of row = 83
     this.row = row;
@@ -38,7 +38,9 @@ Enemy.prototype.update = function(dt) {
 
     if(this.x >= player.x - imgOffset && this.x <= player.x + imgOffset) {
         if(this.y >= player.y - imgOffset && this.y <= player.y + imgOffset) {
-            this.reset();
+            allEnemies.forEach(function(enemy) {
+                enemy.reset();
+            });
             player.reset();
         }
     }
@@ -80,15 +82,24 @@ var Player = function(x, y) {
 // ****************************************************
 Player.prototype.update = function() {
 
+
 }
 
 // ****************************************************
 //  render method
 // ****************************************************
 Player.prototype.render = function() {
-    ctx.font = "400 50px Gloria Hallelujah";
-    ctx.fillText("Score: " + score, 0, 50);
-    ctx.fillText("Level: " + level, 300, 50);
+    ctx.font = "400 30px Gloria Hallelujah";
+    ctx.fillStyle = 'white';
+    ctx.fillText("Score: " + score, 10, ctx.canvas.height-25);
+    ctx.fillText("Level: " + level, 10,85);
+
+    ctx.save();
+    ctx.font = "400 80px Gloria Hallelujah";
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'black';
+    ctx.fillText(message, ctx.canvas.width/2, ctx.canvas.height/2);
+    ctx.restore();
 
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
@@ -101,6 +112,10 @@ Player.prototype.handleInput = function(key) {
 
     this.keypressed = key;
 
+    // Handle the key press and check if the location is at an edge first
+    // before moving the coords.
+    // Note: The below allows for the player to wrap around to the left 
+    // or right, once the player reaches the right or left edge.
     switch (key) {
         case 'left':
             if (this.x < this.edge[key]) {
@@ -127,6 +142,26 @@ Player.prototype.handleInput = function(key) {
             }
             break;
     }
+
+    // check if the player has made it to the water, and
+    // if so, send Won message, then reset
+    if (this.y <= this.edge['up'] && state != 'won') {
+        console.log('won');
+        state = 'won';
+        message = 'You Won!!!!!!';
+        
+        setTimeout(function(){
+            // score grows by level amount;
+            score += level;
+            level += 1;
+            player.reset();
+            allEnemies.forEach(function(enemy) {
+                enemy.reset();
+            });
+            state = 'start';
+            message = '';
+        }, 3000);
+    }
 }
 
 // ****************************************************
@@ -144,10 +179,12 @@ Player.prototype.reset = function() {
 // var player = new Player(215, 460);
 
 var score = 0;
-var level = 0;
+var level = 1;
 var imgOffset = 25;
 var cellWidth = 101;
 var cellHeight = 83;
+var state = 'start';
+var message = '';
 
 var allEnemies = []; //creates an array of Enemies
 (function displayEnemies() {
