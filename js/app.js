@@ -13,7 +13,7 @@ var Enemy = function(row) {
     // Will add enemy in the row that is passed into this function
     this.y = row*cellHeight - imgOffset;
     // use a speed function so that we can increase speed for next level
-    this.speed = this.getspeed(190);
+    this.speed = this.getspeed(topspeed);
 
 };
 
@@ -41,6 +41,12 @@ Enemy.prototype.update = function(dt) {
             allEnemies.forEach(function(enemy) {
                 enemy.reset();
             });
+            if (level > 1) {
+                score -= level;
+                level -= 1;
+                topspeed -= 5;
+            }
+            
             player.reset();
         }
     }
@@ -53,6 +59,7 @@ Enemy.prototype.render = function() {
 
 Enemy.prototype.reset = function() {
     this.x = -cellWidth;
+    this.speed = this.getspeed(topspeed);
 };
 
 
@@ -154,6 +161,8 @@ Player.prototype.handleInput = function(key) {
             // score grows by level amount;
             score += level;
             level += 1;
+            topspeed += 10;
+            console.log(topspeed);
             player.reset();
             allEnemies.forEach(function(enemy) {
                 enemy.reset();
@@ -178,6 +187,7 @@ Player.prototype.reset = function() {
 // var allEnemies = [new Enemy(100, 300, 250), new Enemy(300, 380, 150), new Enemy(400, 220, 350), new Enemy(-700, 130, 420)];
 // var player = new Player(215, 460);
 
+var topspeed = 180;
 var score = 0;
 var level = 1;
 var imgOffset = 25;
