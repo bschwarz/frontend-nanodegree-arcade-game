@@ -48,9 +48,9 @@ Enemy.prototype.update = function(dt) {
                     topspeed -= 5;
                 }
             } else {
-                message = "You lose :("
+                message = "Game Over!!"
                 player.renderLives();
-                
+
                 setTimeout(function(){
                     topspeed = 180;
                     score = 0;
@@ -126,9 +126,10 @@ Player.prototype.render = function() {
     this. renderLives();
 
     ctx.save();
-    ctx.font = "400 80px Gloria Hallelujah";
+    // ctx.font = "400 80px Gloria Hallelujah";
+    ctx.font = "60px Permanent Marker";
     ctx.textAlign = 'center';
-    ctx.fillStyle = 'black';
+    ctx.fillStyle = 'red';
     ctx.fillText(message, ctx.canvas.width/2, ctx.canvas.height/2);
     ctx.restore();
 
