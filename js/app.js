@@ -38,15 +38,35 @@ Enemy.prototype.update = function(dt) {
 
     if(this.x >= player.x - imgOffset && this.x <= player.x + imgOffset) {
         if(this.y >= player.y - imgOffset && this.y <= player.y + imgOffset) {
+            
+            lives -= 1;
+
+            if (lives) {
+                if (level > 1) {
+                    score -= level;
+                    level -= 1;
+                    topspeed -= 5;
+                }
+            } else {
+                message = "You lose :("
+                player.renderLives();
+                
+                setTimeout(function(){
+                    topspeed = 180;
+                    score = 0;
+                    level = 1;
+                    state = 'start';
+                    message = '';
+                    lives = 3;
+                }, 3000);
+
+                // Resets number of enemies back to three
+                allEnemies = allEnemies.slice(0,3);
+            }
+
             allEnemies.forEach(function(enemy) {
                 enemy.reset();
             });
-            if (level > 1) {
-                score -= level;
-                level -= 1;
-                topspeed -= 5;
-            }
-            
             player.reset();
         }
     }
@@ -100,6 +120,10 @@ Player.prototype.render = function() {
     ctx.fillStyle = 'white';
     ctx.fillText("Score: " + score, 10, ctx.canvas.height-25);
     ctx.fillText("Level: " + level, 10,85);
+    // ctx.fillText("Lives: " + lives, ctx.canvas.width-150,85);
+    // ctx.drawImage(Resources.get(this.sprite), ctx.canvas.width-100, 55, 30, 60);
+
+    this. renderLives();
 
     ctx.save();
     ctx.font = "400 80px Gloria Hallelujah";
@@ -111,6 +135,17 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+// ****************************************************
+//  renderLives method
+// ****************************************************
+Player.prototype.renderLives = function() {
+
+    var xoff = 35;
+    for (var i = 1; i <= lives; i++) {
+        ctx.drawImage(Resources.get(this.sprite), ctx.canvas.width-xoff, 35, 30, 60);
+        xoff += 40;
+    }
+}
 
 // ****************************************************
 //  method to handle the input from the user
@@ -155,14 +190,21 @@ Player.prototype.handleInput = function(key) {
     if (this.y <= this.edge['up'] && state != 'won') {
         console.log('won');
         state = 'won';
-        message = 'You Won!!!!!!';
+        message = 'Good Job!!!!!!';
         
         setTimeout(function(){
             // score grows by level amount;
             score += level;
             level += 1;
-            topspeed += 10;
-            console.log(topspeed);
+            if (level % 5) {
+                topspeed += 5;
+            } else {
+                var row = allEnemies.length % 3 + 1;
+                allEnemies.push(new Enemy(row));
+                console.log("ROW: " + row);
+            }
+            // topspeed += 10;
+            // console.log(topspeed);
             player.reset();
             allEnemies.forEach(function(enemy) {
                 enemy.reset();
@@ -181,6 +223,11 @@ Player.prototype.reset = function() {
     this.y = 5*cellHeight-imgOffset;
 }
 
+
+var gameReset = function() {
+
+}
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
@@ -195,14 +242,15 @@ var cellWidth = 101;
 var cellHeight = 83;
 var state = 'start';
 var message = '';
+var lives = 3;
 
-var allEnemies = []; //creates an array of Enemies
-(function displayEnemies() {
-    'use strict';
-    allEnemies.push(new Enemy(1));
-    allEnemies.push(new Enemy(2));
-    allEnemies.push(new Enemy(3));
-}());
+var allEnemies = [new Enemy(1), new Enemy(2), new Enemy(3)]; //creates an array of Enemies
+// (function displayEnemies() {
+//     'use strict';
+//     allEnemies.push(new Enemy(1));
+//     allEnemies.push(new Enemy(2));
+//     allEnemies.push(new Enemy(3));
+// }());
 
 
 var player = new Player();
