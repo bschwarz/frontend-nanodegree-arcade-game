@@ -1,11 +1,13 @@
 frontend-nanodegree-arcade-game
 ===============================
 
-#Description:
+Description
+-----------
 
-This is a project from the Udacity Front-End Web Developer nanodgree.  This project creates a simple clone of the classic arcade game called Frogger. This project highlights the HTML5 canvas and OO design in javascript.
+This is a project from the Udacity Front-End Web Developer nanodegree.  This project creates a simple clone of the classic arcade game called Frogger. This project highlights the HTML5 canvas and OO design in javascript.
 
-#How to Play:
+How to Play
+------------
 
 Click [here](https://bschwarz.github.io/frontend-nanodegree-arcade-game/) to open the game.
 
