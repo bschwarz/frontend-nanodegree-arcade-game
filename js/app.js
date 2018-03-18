@@ -191,7 +191,7 @@ Player.prototype.handleInput = function(key) {
     if (this.y <= this.edge['up'] && state != 'won') {
         console.log('won');
         state = 'won';
-        message = 'Good Job!!!!!!';
+        message = 'Good Job!!';
         
         setTimeout(function(){
             // score grows by level amount;
