@@ -15,7 +15,7 @@ var Enemy = function(row) {
     this.y = row*cellHeight - imgOffset; // find y based on the row
     
     // use a speed function so that we can increase speed for next level
-    this.speed = this.getspeed(topspeed);
+    this.speed = this.getSpeed(topspeed);
 
 };
 
@@ -23,10 +23,10 @@ var Enemy = function(row) {
 //**************************************************************
 // Method: Enemy.speed
 //
-//  get random speed, based on top speed
+//   get random speed, based on top speed
 //**************************************************************
 //
-Enemy.prototype.getspeed = function(top) {
+Enemy.prototype.getSpeed = function(top) {
     return Math.floor(Math.random() * top) + top - 5;
 }
 
@@ -107,7 +107,7 @@ Enemy.prototype.render = function() {
 //
 Enemy.prototype.reset = function() {
     this.x = -cellWidth;
-    this.speed = this.getspeed(topspeed);
+    this.speed = this.getSpeed(topspeed);
 };
 
 
