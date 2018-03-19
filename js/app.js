@@ -21,7 +21,9 @@ var Enemy = function(row) {
 
 //
 //**************************************************************
-// Method:  Speed - get random speed, based on top speed
+// Method: Enemy.speed
+//
+//  get random speed, based on top speed
 //**************************************************************
 //
 Enemy.prototype.getspeed = function(top) {
@@ -35,6 +37,7 @@ Enemy.prototype.getspeed = function(top) {
 //  Update the enemy's position, required method for game
 //  Parameter: dt, a time delta between ticks
 //**************************************************************
+//
 Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
@@ -111,10 +114,12 @@ Enemy.prototype.reset = function() {
 
 
 
+//
 //================================================
 // Class: Player
 //
 //================================================
+//
 var Player = function() {
     this.sprite = 'images/char-boy.png';
 
@@ -132,16 +137,20 @@ var Player = function() {
 };
 
 
-// ****************************************************
-//  update method
-// ****************************************************
+//
+//****************************************************
+// Method: Player.update
+//****************************************************
+//
 Player.prototype.update = function() {
     //no-op
 }
 
-// ****************************************************
-//  render method
-// ****************************************************
+//
+//****************************************************
+// Method: Player.render
+//****************************************************
+//
 Player.prototype.render = function() {
 
     // Text for the Score and Level headings
@@ -167,9 +176,11 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// ****************************************************
-//  renderLives method
-// ****************************************************
+//
+//****************************************************
+//  Method: Player.renderLives
+//****************************************************
+//
 Player.prototype.renderLives = function() {
 
     // Loop through each life left and render on screen
@@ -180,9 +191,11 @@ Player.prototype.renderLives = function() {
     }
 }
 
+//
 // ****************************************************
-//  method to handle the input from the user
+//  Method: Player.handleInput
 // ****************************************************
+//
 Player.prototype.handleInput = function(key) {
 
     this.keypressed = key;
@@ -251,9 +264,11 @@ Player.prototype.handleInput = function(key) {
     }
 }
 
+//
 // ****************************************************
-//  reset method
+//  Method: Player.reset
 // ****************************************************
+//
 Player.prototype.reset = function() {
     this.x = cellWidth * 2;
     this.y = 5*cellHeight-imgOffset;
@@ -277,7 +292,6 @@ var cellHeight = 83;
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-
 var allEnemies = [new Enemy(1), new Enemy(2), new Enemy(3)]; //creates an array of Enemies
 
 var player = new Player();
