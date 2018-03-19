@@ -43,50 +43,51 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
 
-    this.x += this.speed * dt;    
+    this.x += this.speed * dt;
+    // if enemy is at right edge, have them wrap around
     if (this.x > ctx.canvas.width) {
         this.x = -cellWidth;
     }
 
     // Check for collision of each enemy with the player
-    if(this.x >= player.x - imgOffset && this.x <= player.x + imgOffset) {
-        if(this.y >= player.y - imgOffset && this.y <= player.y + imgOffset) {
+    var deltax = this.x-player.x;
+    var deltay = this.y-player.y;
+    if(Math.abs(deltax) <= imgOffset && Math.abs(deltay) <= imgOffset) {
             
-            lives -= 1;
+        lives -= 1;
 
-            if (lives) {
-                if (level > 1) {
-                    score -= level;
-                    level -= 1;
-                    topspeed -= 5;
-                }
-
-                message = "OUCH!!"
-                setTimeout(function(){message = '';}, 1000);
-            } else {
-                message = "Game Over!!"
-                player.renderLives();
-
-                setTimeout(function(){
-                    topspeed = 180;
-                    score = 0;
-                    level = 1;
-                    state = 'start';
-                    message = 'New Game';
-                    lives = 3;
-                }, 2000);
-
-                // Resets number of enemies back to three
-                allEnemies = allEnemies.slice(0,3);
-
-                setTimeout(function(){message = '';}, 3000);
+        if (lives) {
+            if (level > 1) {
+                score -= level;
+                level -= 1;
+                topspeed -= 5;
             }
 
-            allEnemies.forEach(function(enemy) {
-                enemy.reset();
-            });
-            player.reset();
+            message = "OUCH!!"
+            setTimeout(function(){message = '';}, 1000);
+        } else {
+            message = "Game Over!!"
+            player.renderLives();
+
+            setTimeout(function(){
+                topspeed = 180;
+                score = 0;
+                level = 1;
+                state = 'start';
+                message = 'New Game';
+                lives = 3;
+            }, 2000);
+
+            // Resets number of enemies back to three
+            allEnemies = allEnemies.slice(0,3);
+
+            setTimeout(function(){message = '';}, 3000);
         }
+
+        allEnemies.forEach(function(enemy) {
+            enemy.reset();
+        });
+        player.reset();
     }
 };
 
