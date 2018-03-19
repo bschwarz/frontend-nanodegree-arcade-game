@@ -58,8 +58,8 @@ Enemy.prototype.update = function(dt) {
 
         if (lives) {
             if (level > 1) {
-                score -= level;
                 level -= 1;
+                score -= level;
                 topspeed -= 5;
             }
 
