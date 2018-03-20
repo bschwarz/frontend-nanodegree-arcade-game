@@ -13,11 +13,11 @@ var Enemy = function(row) {
     this.sprite = 'images/enemy-bug.png';
 
     this.row = row;
-    this.x = -cellWidth; // start off screen
-    this.y = row*cellHeight - imgOffset; // find y based on the row
+    this.x = -CELL_WIDTH; // start off screen
+    this.y = row*CELL_HEIGHT - IMG_OFFSET; // find y based on the row
     
     // use a speed function so that we can increase speed for next level
-    this.speed = this.getSpeed(topspeed);
+    this.speed = this.getSpeed(TOP_SPEED);
 
 };
 
@@ -48,7 +48,7 @@ Enemy.prototype.update = function(dt) {
     this.x += this.speed * dt;
     // if enemy is at right edge, have them wrap around
     if (this.x > ctx.canvas.width) {
-        this.x = -cellWidth;
+        this.x = -CELL_WIDTH;
     }
 
     this.checkCollisions();
@@ -64,7 +64,7 @@ Enemy.prototype.checkCollisions = function() {
     // Check for collision of each enemy with the player
     var deltax = this.x-player.x;
     var deltay = this.y-player.y;
-    if(Math.abs(deltax) <= imgOffset && Math.abs(deltay) <= imgOffset) {
+    if(Math.abs(deltax) <= IMG_OFFSET && Math.abs(deltay) <= IMG_OFFSET) {
             
         lives -= 1;
 
@@ -72,7 +72,7 @@ Enemy.prototype.checkCollisions = function() {
             if (player.level > 1) {
                 player.level -= 1;
                 player.score -= player.level;
-                topspeed -= 5;
+                TOP_SPEED -= 5;
             }
 
             message = "OUCH!!";
@@ -82,7 +82,7 @@ Enemy.prototype.checkCollisions = function() {
             player.renderLives();
 
             setTimeout(function(){
-                topspeed = 180;
+                TOP_SPEED = 180;
                 player.score = 0;
                 player.level = 1;
                 state = 'start';
@@ -120,8 +120,8 @@ Enemy.prototype.render = function() {
 //**************************************************************
 //
 Enemy.prototype.reset = function() {
-    this.x = -cellWidth;
-    this.speed = this.getSpeed(topspeed);
+    this.x = -CELL_WIDTH;
+    this.speed = this.getSpeed(TOP_SPEED);
 };
 
 
@@ -138,15 +138,15 @@ var Player = function() {
     this.sprite = 'images/char-boy.png';
 
     // Start at bottom row, in the middle
-    this.x = cellWidth * 2;
-    this.y = 5*cellHeight-imgOffset;
+    this.x = CELL_WIDTH * 2;
+    this.y = 5*CELL_HEIGHT-IMG_OFFSET;
 
     // define the edges for each direction, for edge detection
     this.edge = {
-        'left': cellWidth, 
-        'up': imgOffset, 
-        'right': cellWidth*4, 
-        'down': cellHeight*4+imgOffset
+        'left': CELL_WIDTH, 
+        'up': IMG_OFFSET, 
+        'right': CELL_WIDTH*4, 
+        'down': CELL_HEIGHT*4+IMG_OFFSET
     };
 
     this.score = 0;
@@ -231,24 +231,24 @@ Player.prototype.handleInput = function(key) {
             if (this.x < this.edge[key]) {
                 this.x = this.edge.right;
             } else {
-                this.x -= cellWidth;
+                this.x -= CELL_WIDTH;
             }
             break;
         case 'up':
             if (this.y > this.edge[key]) {
-                this.y -= cellHeight;
+                this.y -= CELL_HEIGHT;
             }
             break;
         case 'right':
             if (this.x>= this.edge[key]) {
                 this.x = 0;
             } else {
-                this.x += cellWidth;
+                this.x += CELL_WIDTH;
             }
             break;
         case 'down':
             if (this.y < this.edge[key]) {
-                this.y += cellHeight;
+                this.y += CELL_HEIGHT;
             }
             break;
     }
@@ -267,7 +267,7 @@ Player.prototype.handleInput = function(key) {
             // if not multiple of 5, just increase speed
             // else if multiple of 5 then add enemy
             if (self.level % 5) {
-                topspeed += 5;
+                TOP_SPEED += 5;
             } else {
                 var row = allEnemies.length % 3 + 1;
                 allEnemies.push(new Enemy(row));
@@ -288,21 +288,21 @@ Player.prototype.handleInput = function(key) {
 // ****************************************************
 //
 Player.prototype.reset = function() {
-    this.x = cellWidth * 2;
-    this.y = 5*cellHeight-imgOffset;
+    this.x = CELL_WIDTH * 2;
+    this.y = 5*CELL_HEIGHT-IMG_OFFSET;
 }
 
 // Global varaibles
-var topspeed = 180;
-var imgOffset = 25;
+var TOP_SPEED = 180;
+var IMG_OFFSET = 25;
 var state = 'start';
 var message = '';
 var lives = 3;
 // **  from engine.js
 // width of column = 101
 // height of row = 83
-var cellWidth = 101;
-var cellHeight = 83;
+var CELL_WIDTH = 101;
+var CELL_HEIGHT = 83;
 
 
 // Now instantiate your objects.
