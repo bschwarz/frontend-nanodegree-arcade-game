@@ -6,7 +6,7 @@
 //   enemies our player must avoid
 //============================================================
 //
-var Enemy = function(row) {
+let Enemy = function(row) {
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
@@ -15,9 +15,9 @@ var Enemy = function(row) {
     this.row = row;
     this.x = -CELL_WIDTH; // start off screen
     this.y = row*CELL_HEIGHT - IMG_OFFSET; // find y based on the row
-    
+
     // use a speed function so that we can increase speed for next level
-    this.speed = this.getSpeed(TOP_SPEED);
+    this.speed = this.getSpeed(topSpeed);
 
 };
 
@@ -60,19 +60,19 @@ Enemy.prototype.update = function(dt) {
 //**************************************************************
 //
 Enemy.prototype.checkCollisions = function() {
-    
+
     // Check for collision of each enemy with the player
-    var deltax = this.x-player.x;
-    var deltay = this.y-player.y;
+    let deltax = this.x-player.x;
+    let deltay = this.y-player.y;
     if(Math.abs(deltax) <= IMG_OFFSET && Math.abs(deltay) <= IMG_OFFSET) {
-            
+
         lives -= 1;
 
         if (lives) {
             if (player.level > 1) {
                 player.level -= 1;
                 player.score -= player.level;
-                TOP_SPEED -= 5;
+                topSpeed -= 5;
             }
 
             message = "OUCH!!";
@@ -82,7 +82,7 @@ Enemy.prototype.checkCollisions = function() {
             player.renderLives();
 
             setTimeout(function(){
-                TOP_SPEED = 180;
+                topSpeed = 180;
                 player.score = 0;
                 player.level = 1;
                 state = 'start';
@@ -121,7 +121,7 @@ Enemy.prototype.render = function() {
 //
 Enemy.prototype.reset = function() {
     this.x = -CELL_WIDTH;
-    this.speed = this.getSpeed(TOP_SPEED);
+    this.speed = this.getSpeed(topSpeed);
 };
 
 
@@ -134,7 +134,7 @@ Enemy.prototype.reset = function() {
 //
 //================================================
 //
-var Player = function() {
+let Player = function() {
     this.sprite = 'images/char-boy.png';
 
     // Start at bottom row, in the middle
@@ -143,9 +143,9 @@ var Player = function() {
 
     // define the edges for each direction, for edge detection
     this.edge = {
-        'left': CELL_WIDTH, 
-        'up': IMG_OFFSET, 
-        'right': CELL_WIDTH*4, 
+        'left': CELL_WIDTH,
+        'up': IMG_OFFSET,
+        'right': CELL_WIDTH*4,
         'down': CELL_HEIGHT*4+IMG_OFFSET
     };
 
@@ -175,7 +175,7 @@ Player.prototype.render = function() {
     ctx.fillStyle = 'white';
     ctx.fillText("Score: " + this.score, 10, ctx.canvas.height-25);
     ctx.fillText("Level: " + this.level, 10,85);
- 
+
     this.renderLives();
 
     // Text for the Game Status on screen (i.e. Game Over)
@@ -201,8 +201,8 @@ Player.prototype.render = function() {
 Player.prototype.renderLives = function() {
 
     // Loop through each life left and render on screen
-    var xoff = 35;
-    for (var i = 1; i <= lives; i++) {
+    let xoff = 35;
+    for (let i = 1; i <= lives; i++) {
         ctx.drawImage(Resources.get(this.sprite), ctx.canvas.width-xoff, 35, 30, 60);
         xoff += 40;
     }
@@ -215,17 +215,17 @@ Player.prototype.renderLives = function() {
 //
 Player.prototype.handleInput = function(key) {
 
-    var self = this;
+    let self = this;
 
     // Handle the key press and check if the location is at an edge first
     // before moving the coords.
-    // 
-    // **Note**: The below allows for the player to wrap around to the left 
+    //
+    // **Note**: The below allows for the player to wrap around to the left
     // or right, once the player reaches the right or left edge. The Rubric
     // mentions that player can not move off screen. If this ability violates
     // that requirement, I can change so that it doesn't wrap. I just think
     // wrapping allows a different dimension to the game.
-    // 
+    //
     switch (key) {
         case 'left':
             if (this.x < this.edge[key]) {
@@ -258,8 +258,8 @@ Player.prototype.handleInput = function(key) {
     if (this.y <= this.edge.up && state != 'won') {
         state = 'won';
         message = 'Good Job!!';
-        
-        var self = this;
+
+        let self = this;
         setTimeout(function(){
             // score grows by level amount;
             self.score += self.level;
@@ -267,9 +267,9 @@ Player.prototype.handleInput = function(key) {
             // if not multiple of 5, just increase speed
             // else if multiple of 5 then add enemy
             if (self.level % 5) {
-                TOP_SPEED += 5;
+                topSpeed += 5;
             } else {
-                var row = allEnemies.length % 3 + 1;
+                let row = allEnemies.length % 3 + 1;
                 allEnemies.push(new Enemy(row));
             }
             self.reset();
@@ -293,30 +293,30 @@ Player.prototype.reset = function() {
 }
 
 // Global varaibles
-var TOP_SPEED = 180;
-var IMG_OFFSET = 25;
-var state = 'start';
-var message = '';
-var lives = 3;
+let topSpeed = 180;
+const IMG_OFFSET = 25;
+let state = 'start';
+let message = '';
+let lives = 3;
 // **  from engine.js
 // width of column = 101
 // height of row = 83
-var CELL_WIDTH = 101;
-var CELL_HEIGHT = 83;
+const CELL_WIDTH = 101;
+const CELL_HEIGHT = 83;
 
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-var allEnemies = [new Enemy(1), new Enemy(2), new Enemy(3)]; //creates an array of Enemies
+let allEnemies = [new Enemy(1), new Enemy(2), new Enemy(3)]; //creates an array of Enemies
 
-var player = new Player();
+let player = new Player();
 
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
+    let allowedKeys = {
         37: 'left',
         38: 'up',
         39: 'right',
