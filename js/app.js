@@ -28,7 +28,7 @@ var Enemy = function(row) {
 //
 Enemy.prototype.getSpeed = function(top) {
     return Math.floor(Math.random() * top) + top - 5;
-}
+};
 
 //
 //**************************************************************
@@ -63,10 +63,10 @@ Enemy.prototype.update = function(dt) {
                 topspeed -= 5;
             }
 
-            message = "OUCH!!"
+            message = "OUCH!!";
             setTimeout(function(){message = '';}, 1000);
         } else {
-            message = "Game Over!!"
+            message = "Game Over!!";
             player.renderLives();
 
             setTimeout(function(){
@@ -145,7 +145,7 @@ var Player = function() {
 //
 Player.prototype.update = function() {
     //no-op
-}
+};
 
 //
 //****************************************************
@@ -190,7 +190,7 @@ Player.prototype.renderLives = function() {
         ctx.drawImage(Resources.get(this.sprite), ctx.canvas.width-xoff, 35, 30, 60);
         xoff += 40;
     }
-}
+};
 
 //
 // ****************************************************
@@ -215,7 +215,7 @@ Player.prototype.handleInput = function(key) {
     switch (key) {
         case 'left':
             if (this.x < this.edge[key]) {
-                this.x = this.edge['right'];
+                this.x = this.edge.right;
             } else {
                 this.x -= cellWidth;
             }
@@ -241,7 +241,7 @@ Player.prototype.handleInput = function(key) {
 
     // check if the player has made it to the water, and
     // if so, send Won message, then reset
-    if (this.y <= this.edge['up'] && state != 'won') {
+    if (this.y <= this.edge.up && state != 'won') {
         state = 'won';
         message = 'Good Job!!';
         
@@ -265,7 +265,7 @@ Player.prototype.handleInput = function(key) {
             message = '';
         }, 2000);
     }
-}
+};
 
 //
 // ****************************************************
@@ -275,7 +275,7 @@ Player.prototype.handleInput = function(key) {
 Player.prototype.reset = function() {
     this.x = cellWidth * 2;
     this.y = 5*cellHeight-imgOffset;
-}
+};
 
 // Global varaibles
 var topspeed = 180;
