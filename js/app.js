@@ -1,3 +1,5 @@
+'use strict';
+
 //
 //============================================================
 // Class: Enemy
@@ -275,7 +277,7 @@ Player.prototype.handleInput = function(key) {
 Player.prototype.reset = function() {
     this.x = cellWidth * 2;
     this.y = 5*cellHeight-imgOffset;
-};
+}
 
 // Global varaibles
 var topspeed = 180;
