@@ -212,8 +212,6 @@ Player.prototype.renderLives = function() {
 //
 Player.prototype.handleInput = function(key) {
 
-    this.keypressed = key;
-
     var self = this;
 
     // Handle the key press and check if the location is at an edge first
