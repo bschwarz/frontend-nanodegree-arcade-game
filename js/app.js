@@ -215,7 +215,6 @@ Player.prototype.renderLives = function() {
 //
 Player.prototype.handleInput = function(key) {
 
-    let self = this;
 
     // Handle the key press and check if the location is at an edge first
     // before moving the coords.
@@ -290,7 +289,7 @@ Player.prototype.handleInput = function(key) {
 Player.prototype.reset = function() {
     this.x = CELL_WIDTH * 2;
     this.y = 5*CELL_HEIGHT-IMG_OFFSET;
-}
+};
 
 // Global varaibles
 let topSpeed = 180;
