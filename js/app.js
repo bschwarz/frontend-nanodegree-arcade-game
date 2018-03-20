@@ -51,6 +51,16 @@ Enemy.prototype.update = function(dt) {
         this.x = -cellWidth;
     }
 
+    this.checkCollisions();
+};
+
+//
+//**************************************************************
+// Method: Enemy.checkCollisions
+//**************************************************************
+//
+Enemy.prototype.checkCollisions = function() {
+    
     // Check for collision of each enemy with the player
     var deltax = this.x-player.x;
     var deltay = this.y-player.y;
@@ -92,6 +102,7 @@ Enemy.prototype.update = function(dt) {
         player.reset();
     }
 };
+
 
 //
 //**************************************************************
