@@ -201,6 +201,8 @@ Player.prototype.handleInput = function(key) {
 
     this.keypressed = key;
 
+    var self = this;
+
     // Handle the key press and check if the location is at an edge first
     // before moving the coords.
     // 
@@ -255,7 +257,7 @@ Player.prototype.handleInput = function(key) {
                 var row = allEnemies.length % 3 + 1;
                 allEnemies.push(new Enemy(row));
             }
-            player.reset();
+            self.reset();
             allEnemies.forEach(function(enemy) {
                 enemy.reset();
             });
