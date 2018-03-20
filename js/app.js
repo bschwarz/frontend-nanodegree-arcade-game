@@ -69,9 +69,9 @@ Enemy.prototype.checkCollisions = function() {
         lives -= 1;
 
         if (lives) {
-            if (level > 1) {
-                level -= 1;
-                score -= level;
+            if (player.level > 1) {
+                player.level -= 1;
+                player.score -= player.level;
                 topspeed -= 5;
             }
 
@@ -83,8 +83,8 @@ Enemy.prototype.checkCollisions = function() {
 
             setTimeout(function(){
                 topspeed = 180;
-                score = 0;
-                level = 1;
+                player.score = 0;
+                player.level = 1;
                 state = 'start';
                 message = 'New Game';
                 lives = 3;
@@ -148,6 +148,9 @@ var Player = function() {
         'right': cellWidth*4, 
         'down': cellHeight*4+imgOffset
     };
+
+    this.score = 0;
+    this.level = 1;
 };
 
 
@@ -170,8 +173,8 @@ Player.prototype.render = function() {
     // Text for the Score and Level headings
     ctx.font = "25pt Permanent Marker";
     ctx.fillStyle = 'white';
-    ctx.fillText("Score: " + score, 10, ctx.canvas.height-25);
-    ctx.fillText("Level: " + level, 10,85);
+    ctx.fillText("Score: " + this.score, 10, ctx.canvas.height-25);
+    ctx.fillText("Level: " + this.level, 10,85);
  
     this.renderLives();
 
@@ -256,13 +259,14 @@ Player.prototype.handleInput = function(key) {
         state = 'won';
         message = 'Good Job!!';
         
+        var self = this;
         setTimeout(function(){
             // score grows by level amount;
-            score += level;
-            level += 1;
+            self.score += self.level;
+            self.level += 1;
             // if not multiple of 5, just increase speed
             // else if multiple of 5 then add enemy
-            if (level % 5) {
+            if (self.level % 5) {
                 topspeed += 5;
             } else {
                 var row = allEnemies.length % 3 + 1;
@@ -290,8 +294,6 @@ Player.prototype.reset = function() {
 
 // Global varaibles
 var topspeed = 180;
-var score = 0;
-var level = 1;
 var imgOffset = 25;
 var state = 'start';
 var message = '';
