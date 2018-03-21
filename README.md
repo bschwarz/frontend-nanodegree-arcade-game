@@ -17,3 +17,8 @@ How to Play
 
 Use the arrow keys to move the player across the board. You have 3 lives. Every time a bug hits you, you lose a life. After you lose 3 lives, you lose the game. If you make it to the water, you get points based on the level of the game. Each level will increase the difficulty of the game.
 
+License
+-------
+This project is licensed under the terms of the MIT license.
+
+Copyright (c) 2018 Brett Schwarz
