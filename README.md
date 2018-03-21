@@ -9,8 +9,8 @@ This is a project from the Udacity Front-End Web Developer nanodegree.  This pro
 How to Load Game
 ----------------
 You can load the game in two ways:
-# From this GitHub repo - Click [here](https://bschwarz.github.io/frontend-nanodegree-arcade-game/) to open the game.
-# Download repo locally - You can either download a zip file from the repo or you can clone the repo onto your local machine. Once downloaded on your local machine, you can open the index.html file that is in the root directory of the repo, with a browser (i.e. Chrome, Firefox). 
+1. From this GitHub repo - Click [here](https://bschwarz.github.io/frontend-nanodegree-arcade-game/) to open the game.
+2. Download repo locally - You can either download a zip file from the repo or you can clone the repo onto your local machine. Once downloaded on your local machine, you can open the index.html file that is in the root directory of the repo, with a browser (i.e. Chrome, Firefox). 
 
 How to Play
 ------------
