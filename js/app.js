@@ -1,11 +1,10 @@
 'use strict';
 
-//
-//============================================================
-// Class: Enemy
-//   enemies our player must avoid
-//============================================================
-//
+/**
+* @description Represents an ememy the player needs to avoid
+* @constructor
+* @param {number} row - The row on the game board the enemy will tranverse
+*/
 let Enemy = function(row) {
 
     // The image/sprite for our enemies, this uses
@@ -21,25 +20,18 @@ let Enemy = function(row) {
 
 };
 
-//
-//**************************************************************
-// Method: Enemy.speed
-//
-//   get random speed, based on top speed
-//**************************************************************
-//
+/**
+* @description gets a random speed value for an enemy
+* @param {number} top - The top speed an enemy can achieve
+*/
 Enemy.prototype.getSpeed = function(top) {
     return Math.floor(Math.random() * top) + top - 5;
 };
 
-//
-//**************************************************************
-// Method: Enemy.update
-//
-//  Update the enemy's position, required method for game
-//  Parameter: dt, a time delta between ticks
-//**************************************************************
-//
+/**
+* @description Update the enemy's position, required method for game
+* @param {number} a time delta between ticks
+*/
 Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
@@ -54,11 +46,9 @@ Enemy.prototype.update = function(dt) {
     this.checkCollisions();
 };
 
-//
-//**************************************************************
-// Method: Enemy.checkCollisions
-//**************************************************************
-//
+/**
+* @description checks to see if enemy collides with the player
+*/
 Enemy.prototype.checkCollisions = function() {
 
     // Check for collision of each enemy with the player
@@ -104,16 +94,16 @@ Enemy.prototype.checkCollisions = function() {
 };
 
 
-//
-//**************************************************************
-// Method: Enemy.render
-//
-//**************************************************************
-//
+/**
+* @description renders the enemy to the screen
+*/
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+/**
+* @description resets the enemy to start position, after player dies or Win
+*/
 //
 //**************************************************************
 // Method: Enemy.reset
@@ -127,13 +117,10 @@ Enemy.prototype.reset = function() {
 
 
 
-
-//
-//================================================
-// Class: Player
-//
-//================================================
-//
+/**
+* @description Represents the Player of the game
+* @constructor
+*/
 let Player = function() {
     this.sprite = 'images/char-boy.png';
 
@@ -153,21 +140,16 @@ let Player = function() {
     this.level = 1;
 };
 
-
-//
-//****************************************************
-// Method: Player.update
-//****************************************************
-//
+/**
+* @description updates a player, but not used
+*/
 Player.prototype.update = function() {
     //no-op
 };
 
-//
-//****************************************************
-// Method: Player.render
-//****************************************************
-//
+/**
+* @description renders the player to the screen
+*/
 Player.prototype.render = function() {
 
     // Text for the Score and Level headings
@@ -193,11 +175,10 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-//
-//****************************************************
-//  Method: Player.renderLives
-//****************************************************
-//
+
+/**
+* @description renders the player's life icons at top left of screen
+*/
 Player.prototype.renderLives = function() {
 
     // Loop through each life left and render on screen
@@ -208,11 +189,10 @@ Player.prototype.renderLives = function() {
     }
 };
 
-//
-// ****************************************************
-//  Method: Player.handleInput
-// ****************************************************
-//
+/**
+* @description handles the keyboard input from the user
+* @param {string} key - The key that was pressed (up, down, left, right)
+*/
 Player.prototype.handleInput = function(key) {
 
 
@@ -281,17 +261,15 @@ Player.prototype.handleInput = function(key) {
     }
 };
 
-//
-// ****************************************************
-//  Method: Player.reset
-// ****************************************************
-//
+/**
+* @description resets the player after game interruption
+*/
 Player.prototype.reset = function() {
     this.x = CELL_WIDTH * 2;
     this.y = 5*CELL_HEIGHT-IMG_OFFSET;
 };
 
-// Global varaibles
+// Global variables
 let topSpeed = 180;
 const IMG_OFFSET = 25;
 let state = 'start';
